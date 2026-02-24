@@ -1,0 +1,50 @@
+# This can only be compiled natively on QNX
+pkgname=libtool
+pkgver=2.5.4
+pkgrel=2
+pkgdesc="A generic library support script"
+url="https://www.gnu.org/software/libtool"
+arch="all"
+depends="perl libltdl"
+makedepends="m4 help2man"
+license="LGPL-2.0-or-later AND GPL-2.0-or-later"
+subpackages="libltdl-static libltdl $pkgname-doc"
+source="https://mirror.csclub.uwaterloo.ca/gnu/libtool/libtool-$pkgver.tar.gz"
+#source="https://ftp.gnu.org/gnu/libtool/libtool-$pkgver.tar.gz"
+builddir="${srcdir}/libtool-${pkgver}"
+
+build() {
+    if [[ $CBUILD = $CHOST ]]; then
+        # Compile natively
+        echo "No additional arguments are required"
+    else
+        # Cross compiling
+        echo "This can not be cross-compiled"
+        exit 1;
+    fi
+
+   CHOST="$CHOST" \
+   ./configure \
+        --build=$CBUILD \
+        --host=$CHOST \
+        --prefix=/usr \
+        CFLAGS="$CFLAGS -D_QNX_SOURCE -Qunused-arguments" \
+        LDFLAGS="-lm -lregex -lgcc_s"
+
+    make
+}
+
+package() {
+    make DESTDIR="$pkgdir/" install
+}
+
+libltdl() {
+	pkgdesc="Runtime libraries for GNU Libtool Dynamic Module Loader"
+	depends=
+	amove usr/lib/libltdl.so*
+}
+
+
+sha512sums="
+60599f5c3168a287fe3a35062fd2e32e0b73433fce820bfd18d28b0e3bd7a8fefde6d6f0505fbbc2d664119ab7c539269184993843289932c895847ea1ab9f04  libtool-2.5.4.tar.gz
+"
