@@ -1,7 +1,7 @@
 # This can only be compiled natively on QNX
 pkgname=libtool
 pkgver=2.5.4
-pkgrel=${pkgrel:-0}
+pkgrel=2
 pkgdesc="A generic library support script"
 url="https://www.gnu.org/software/libtool"
 arch="all"
@@ -45,7 +45,6 @@ libltdl() {
 }
 
 
-options="$options ${DISABLE_CHECK:+!check}"
 sha512sums="
 60599f5c3168a287fe3a35062fd2e32e0b73433fce820bfd18d28b0e3bd7a8fefde6d6f0505fbbc2d664119ab7c539269184993843289932c895847ea1ab9f04  libtool-2.5.4.tar.gz
 "
